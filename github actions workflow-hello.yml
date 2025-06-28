@@ -1,0 +1,68 @@
+# GitHub Actions Workflow
+# This workflow sets up Node.js environment and logs a personalized message
+
+name: Hello Workflow
+
+# Trigger the workflow on push and pull request events
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  # Allow manual triggering from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  hello-job:
+    # Run on the latest Ubuntu runner
+    runs-on: ubuntu-latest
+    
+    steps:
+    # Step 1: Checkout the repository code
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    # Step 2: Set up Node.js environment
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    # Step 3: Display Node.js and npm versions
+    - name: Display Node.js info
+      run: |
+        echo "Node.js version:"
+        node --version
+        echo "npm version:"
+        npm --version
+    
+    # Step 4: Log the personalized hello message
+    - name: Log hello message
+      run: |
+        echo "🎉 Hello from @Mohammedpasha786"
+        echo "✨ GitHub Actions workflow executed successfully!"
+        echo "📅 Workflow run date: $(date)"
+        echo "🔧 Node.js environment is ready!"
+    
+    # Step 5: Optional - Create a simple package.json and install a package
+    - name: Create package.json and install lodash
+      run: |
+        echo "Creating a basic package.json..."
+        npm init -y
+        echo "Installing lodash as example package..."
+        npm install lodash
+        echo "📦 Package installation completed!"
+    
+    # Step 6: Run a simple Node.js script
+    - name: Run Node.js hello script
+      run: |
+        cat > hello.js << 'EOF'
+        console.log('🎲 Hello from @Mohammedpasha786');
+        console.log('🚀 This message is from a Node.js script in GitHub Actions!');
+        console.log('⭐ Repository: dice-roller-simulator');
+        console.log('🎯 Workflow executed successfully!');
+        EOF
+        
+        echo "Running Node.js script..."
+        node hello.js
